@@ -1,1 +1,26 @@
-<p>snake-game works!</p>
+<div class="grid">
+  <canvas #snake class="game-board"></canvas>
+  <div class="right-column">
+    <div>
+      <h1>SNAKE</h1>
+      <p>Score: {{ points }}</p>
+      <p>Snake blocks: {{ snakeBlocks }}</p>
+      <p>Speed: {{ speed + 'x' }}</p>
+    </div>
+    <div class="button-container">
+      <button (click)="playGame()" class="play-button button">
+        Play Game
+      </button>
+    </div>
+    <div class="button-container">
+      <button (click)="pauseGame()" class="pause-button button">
+        Pause Game
+      </button>
+    </div>
+    <div class="button-container">
+      <button (click)="resetGame()" class="pause-button button">
+        Reset Game
+      </button>
+    </div>
+  </div>
+</div>
