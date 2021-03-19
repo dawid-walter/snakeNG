@@ -1,6 +1,8 @@
 # SnakeNG - snake game in angular
 My very first app was snake game in Java. I created this project to practice my Angular skills and for fun, my goal was port it from Java to TypeScript
 
+![snake picture](src/assets/share-image.png)
+
 ## Features
 
 - Single player snake game
