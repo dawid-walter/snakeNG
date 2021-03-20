@@ -15,13 +15,13 @@ export class SnakeGameComponent implements OnInit {
   private ctx: CanvasRenderingContext2D;
   points: number;
   snakeBlocks: number;
-  speed = 0;
+  speed = 1;
   private time = {start: 0, elapsed: 0, total: 2000};
   private snake: Snake;
   private movingDirection: DIRECTIONS;
   private currentFrameId: number;
   isRunning = false;
-  private apple = {x: 10 * BLOCK_SIZE + 11 * GRID_SIZE, y: BLOCK_SIZE + 2};
+  private apple;
 
 
   constructor() {
@@ -56,6 +56,7 @@ export class SnakeGameComponent implements OnInit {
     this.isRunning = true;
     this.resetGame();
     this.time.start = performance.now();
+    this.randomApple();
     requestAnimationFrame((now) => this.animate(now));
   }
 
@@ -137,6 +138,8 @@ export class SnakeGameComponent implements OnInit {
   }
 
   private randomApple(): void {
-    this.apple = {x: Math.random() * BLOCK_SIZE, y: Math.random() * BLOCK_SIZE};
+    const random1 = Math.floor(Math.random() * COLS - 1) + 1;
+    const random2 = Math.floor(Math.random() * ROWS - 1) + 1;
+    this.apple = {x: random1 * BLOCK_SIZE + random1 + GRID_SIZE, y: random2 * BLOCK_SIZE + random2 + GRID_SIZE};
   }
 }
