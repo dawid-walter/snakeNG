@@ -1,6 +1,6 @@
 import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Snake} from './objects/snake';
-import {BLOCK_SIZE, COLS, ROWS, SNAKE_COLOR} from './settings/global';
+import {BLOCK_SIZE, COLS, GRID_SIZE, ROWS, SNAKE_COLOR} from './settings/global';
 import {DIRECTIONS} from './objects/directions';
 import {KEY_CODE} from './objects/key-code';
 
@@ -28,8 +28,8 @@ export class SnakeGameComponent implements OnInit {
 
   ngOnInit(): void {
     this.ctx = this.canvasSnake.nativeElement.getContext('2d');
-    this.ctx.canvas.width = COLS * BLOCK_SIZE;
-    this.ctx.canvas.height = ROWS * BLOCK_SIZE;
+    this.ctx.canvas.width = COLS * BLOCK_SIZE + (COLS * GRID_SIZE + 1);
+    this.ctx.canvas.height = ROWS * BLOCK_SIZE + (COLS * GRID_SIZE + 1);
     this.snake = new Snake(SNAKE_COLOR);
     this.drawSnake();
     this.resetStats();
@@ -86,13 +86,12 @@ export class SnakeGameComponent implements OnInit {
     this.ctx.textAlign = 'center';
     this.ctx.fillText('Game Over!', this.ctx.canvas.width / 2, this.ctx.canvas.height / 2);
     this.ctx.font = '36px \'Press Start 2P\'';
-    this.ctx.textAlign = 'center';
     this.ctx.fillText('Your score: ' + this.points, this.ctx.canvas.width / 2, this.ctx.canvas.height / 2 + 100);
   }
 
   private animate(now): void {
     this.time.elapsed = now - this.time.start;
-    if (this.time.elapsed > 500) {
+    if (this.time.elapsed > 250) {
       this.drawFrame();
       this.time.start = now;
     }
@@ -111,8 +110,8 @@ export class SnakeGameComponent implements OnInit {
 
   private drawSnake(): void {
     this.ctx.fillStyle = this.snake.color;
-    this.snake.getSnake().forEach(snakeBlock => {
-      this.ctx.fillRect(snakeBlock.x, snakeBlock.y, BLOCK_SIZE - 1, BLOCK_SIZE - 1);
+    this.snake.getSnake().forEach((snakeBlock) => {
+      this.ctx.fillRect(snakeBlock.x, snakeBlock.y, BLOCK_SIZE, BLOCK_SIZE);
     });
   }
 

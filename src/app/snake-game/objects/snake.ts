@@ -1,5 +1,5 @@
 import {SnakeBlock} from './snake-block';
-import {BLOCK_SIZE} from '../settings/global';
+import {BLOCK_SIZE, GRID_SIZE} from '../settings/global';
 import {DIRECTIONS} from './directions';
 
 export class Snake {
@@ -9,10 +9,10 @@ export class Snake {
   constructor(color: string) {
     this.color = color;
     this.snakeBody = [
-      {x: 5 * BLOCK_SIZE, y: BLOCK_SIZE},
-      {x: 4 * BLOCK_SIZE, y: BLOCK_SIZE},
-      {x: 3 * BLOCK_SIZE, y: BLOCK_SIZE},
-      {x: 2 * BLOCK_SIZE, y: BLOCK_SIZE}
+      {x: 4 * BLOCK_SIZE + 4 * GRID_SIZE, y: BLOCK_SIZE},
+      {x: 3 * BLOCK_SIZE + 3 * GRID_SIZE, y: BLOCK_SIZE},
+      {x: 2 * BLOCK_SIZE + 2 * GRID_SIZE, y: BLOCK_SIZE},
+      {x: 1 * BLOCK_SIZE + GRID_SIZE, y: BLOCK_SIZE}
     ];
   }
 
@@ -33,23 +33,23 @@ export class Snake {
 
   moveSnakeTo(direction: DIRECTIONS): void {
     this.snakeBody.pop();
-    if (direction === DIRECTIONS.UP) {
-      this.snakeBody.unshift({x: this.getSnakeHead().x, y: this.getSnakeHead().y - BLOCK_SIZE});
+    if (direction === DIRECTIONS.RIGHT) {
+      this.snakeBody.unshift({x: this.getSnakeHead().x + BLOCK_SIZE + GRID_SIZE, y: this.getSnakeHead().y});
     }
     if (direction === DIRECTIONS.DOWN) {
-      this.snakeBody.unshift({x: this.getSnakeHead().x, y: this.getSnakeHead().y + BLOCK_SIZE});
-    }
-    if (direction === DIRECTIONS.RIGHT) {
-      this.snakeBody.unshift({x: this.getSnakeHead().x + BLOCK_SIZE, y: this.getSnakeHead().y});
+      this.snakeBody.unshift({x: this.getSnakeHead().x, y: this.getSnakeHead().y + BLOCK_SIZE + GRID_SIZE});
     }
     if (direction === DIRECTIONS.LEFT) {
-      this.snakeBody.unshift({x: this.getSnakeHead().x - BLOCK_SIZE, y: this.getSnakeHead().y});
+      this.snakeBody.unshift({x: this.getSnakeHead().x - BLOCK_SIZE - GRID_SIZE, y: this.getSnakeHead().y});
+    }
+    if (direction === DIRECTIONS.UP) {
+      this.snakeBody.unshift({x: this.getSnakeHead().x, y: this.getSnakeHead().y - BLOCK_SIZE - GRID_SIZE});
     }
   }
 
   isHittingWall(width: number, height: number): boolean {
-    return this.getSnakeHead().x <= 0 || this.getSnakeHead().x >= width ||
-      this.getSnakeHead().y <= 0 || this.getSnakeHead().y >= height;
+    return this.getSnakeHead().x <= - BLOCK_SIZE || this.getSnakeHead().x >= width + BLOCK_SIZE ||
+      this.getSnakeHead().y <= - BLOCK_SIZE || this.getSnakeHead().y >= height + BLOCK_SIZE;
   }
 
   isEatingItself(): boolean {
