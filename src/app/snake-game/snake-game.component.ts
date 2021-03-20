@@ -1,6 +1,6 @@
 import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Snake} from './objects/snake';
-import {BLOCK_SIZE, COLS, GRID_SIZE, ROWS, SNAKE_COLOR} from './settings/global';
+import {APPLE_COLOR, BLOCK_SIZE, COLS, GRID_SIZE, ROWS, SNAKE_COLOR} from './settings/global';
 import {DIRECTIONS} from './objects/directions';
 import {KEY_CODE} from './objects/key-code';
 
@@ -21,6 +21,7 @@ export class SnakeGameComponent implements OnInit {
   private movingDirection: DIRECTIONS;
   private currentFrameId: number;
   isRunning = false;
+  private apple = {x: 10 * BLOCK_SIZE + 11 * GRID_SIZE, y: BLOCK_SIZE + 2};
 
 
   constructor() {
@@ -99,12 +100,17 @@ export class SnakeGameComponent implements OnInit {
     if (this.snake.isEatingItself() || this.snake.isHittingWall(this.ctx.canvas.width, this.ctx.canvas.height)) {
       this.gameOver();
     }
+    if (this.snake.isEatingApple(this.apple)) {
+      this.snake.addBlockToSnake();
+      this.randomApple();
+    }
   }
 
   private drawFrame(): void {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.updateStats();
     this.drawSnake();
+    this.drawApple();
     this.snake.moveSnakeTo(this.movingDirection);
   }
 
@@ -123,5 +129,14 @@ export class SnakeGameComponent implements OnInit {
   private resetStats(): void {
     this.points = 0;
     this.snakeBlocks = this.snake.getSnake().length;
+  }
+
+  private drawApple(): void {
+    this.ctx.fillStyle = APPLE_COLOR;
+    this.ctx.fillRect(this.apple.x, this.apple.y, BLOCK_SIZE, BLOCK_SIZE);
+  }
+
+  private randomApple(): void {
+    this.apple = {x: Math.random() * BLOCK_SIZE, y: Math.random() * BLOCK_SIZE};
   }
 }

@@ -57,4 +57,8 @@ export class Snake {
     const tempSnakeBlock = tempArray.shift();
     return tempArray.filter(e => e.x === tempSnakeBlock.x && e.y === tempSnakeBlock.y).length > 0;
   }
+
+  isEatingApple(apple: SnakeBlock): boolean {
+    return (this.getSnakeHead().x === apple.x && this.getSnakeHead().y === apple.y);
+  }
 }
