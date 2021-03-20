@@ -51,4 +51,10 @@ export class Snake {
     return this.getSnakeHead().x <= 0 || this.getSnakeHead().x >= width ||
       this.getSnakeHead().y <= 0 || this.getSnakeHead().y >= height;
   }
+
+  isEatingItself(): boolean {
+    const tempArray = [...this.snakeBody];
+    const tempSnakeBlock = tempArray.shift();
+    return tempArray.filter(e => e.x === tempSnakeBlock.x && e.y === tempSnakeBlock.y).length > 0;
+  }
 }

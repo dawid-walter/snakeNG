@@ -79,7 +79,7 @@ export class SnakeGameComponent implements OnInit {
       this.time.start = now;
     }
     this.currentFrameId = requestAnimationFrame((timestamp) => this.animate(timestamp));
-    if (this.snake.isHittingWall(this.ctx.canvas.width, this.ctx.canvas.height)) {
+    if (this.snake.isEatingItself() || this.snake.isHittingWall(this.ctx.canvas.width, this.ctx.canvas.height)) {
       this.gameOver();
     }
   }
