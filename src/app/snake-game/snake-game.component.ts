@@ -110,7 +110,7 @@ export class SnakeGameComponent implements OnInit {
 
   private drawSnake(): void {
     this.ctx.fillStyle = this.snake.color;
-    this.snake.getSnake().forEach((snakeBlock) => {
+    this.snake.getSnake().forEach(snakeBlock => {
       this.ctx.fillRect(snakeBlock.x, snakeBlock.y, BLOCK_SIZE, BLOCK_SIZE);
     });
   }

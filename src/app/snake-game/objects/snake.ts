@@ -9,10 +9,10 @@ export class Snake {
   constructor(color: string) {
     this.color = color;
     this.snakeBody = [
-      {x: 4 * BLOCK_SIZE + 4 * GRID_SIZE, y: BLOCK_SIZE},
-      {x: 3 * BLOCK_SIZE + 3 * GRID_SIZE, y: BLOCK_SIZE},
-      {x: 2 * BLOCK_SIZE + 2 * GRID_SIZE, y: BLOCK_SIZE},
-      {x: 1 * BLOCK_SIZE + GRID_SIZE, y: BLOCK_SIZE}
+      {x: 4 * BLOCK_SIZE + 5 * GRID_SIZE, y: BLOCK_SIZE + (2 * GRID_SIZE)},
+      {x: 3 * BLOCK_SIZE + 4 * GRID_SIZE, y: BLOCK_SIZE + (2 * GRID_SIZE)},
+      {x: 2 * BLOCK_SIZE + 3 * GRID_SIZE, y: BLOCK_SIZE + (2 * GRID_SIZE)},
+      {x: 1 * BLOCK_SIZE + 2 * GRID_SIZE, y: BLOCK_SIZE + (2 * GRID_SIZE)}
     ];
   }
 
