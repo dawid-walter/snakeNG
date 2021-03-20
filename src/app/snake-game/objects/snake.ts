@@ -46,4 +46,9 @@ export class Snake {
       this.snakeBody.unshift({x: this.getSnakeHead().x - BLOCK_SIZE, y: this.getSnakeHead().y});
     }
   }
+
+  isHittingWall(width: number, height: number): boolean {
+    return this.getSnakeHead().x <= 0 || this.getSnakeHead().x >= width ||
+      this.getSnakeHead().y <= 0 || this.getSnakeHead().y >= height;
+  }
 }

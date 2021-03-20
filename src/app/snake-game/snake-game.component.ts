@@ -11,14 +11,15 @@ import {KEY_CODE} from './objects/key-code';
 })
 export class SnakeGameComponent implements OnInit {
   @ViewChild('snake', {static: true})
-  canvasSnake: ElementRef<HTMLCanvasElement>;
+  private canvasSnake: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
   points: number;
   snakeBlocks: number;
   speed: number;
-  time = {start: 0, elapsed: 0, total: 2000};
-  snake: Snake;
-  movingDirection: DIRECTIONS;
+  private time = {start: 0, elapsed: 0, total: 2000};
+  private snake: Snake;
+  private movingDirection: DIRECTIONS;
+  private currentFrameId: number;
 
 
   constructor() {
@@ -60,11 +61,26 @@ export class SnakeGameComponent implements OnInit {
 
   }
 
+  private gameOver(): void {
+    cancelAnimationFrame(this.currentFrameId);
+    this.ctx.fillStyle = 'black';
+    this.ctx.font = '46px \'Press Start 2P\'';
+    this.ctx.textAlign = 'center';
+    this.ctx.fillText('Game Over!', this.ctx.canvas.width / 2, this.ctx.canvas.height / 2);
+    this.ctx.font = '36px \'Press Start 2P\'';
+    this.ctx.textAlign = 'center';
+    this.ctx.fillText('Your score: ' + this.points, this.ctx.canvas.width / 2, this.ctx.canvas.height / 2 + 100);
+  }
+
   private animate(now): void {
     this.time.elapsed = now - this.time.start;
     if (this.time.elapsed > 500) {
       this.drawFrame();
       this.time.start = now;
+    }
+    this.currentFrameId = requestAnimationFrame((timestamp) => this.animate(timestamp));
+    if (this.snake.isHittingWall(this.ctx.canvas.width, this.ctx.canvas.height)) {
+      this.gameOver();
     }
   }
 
