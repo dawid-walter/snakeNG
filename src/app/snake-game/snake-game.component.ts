@@ -115,13 +115,6 @@ export class SnakeGameComponent implements OnInit {
     this.snake.moveSnakeTo(this.movingDirection);
   }
 
-  private drawSnake(): void {
-    this.ctx.fillStyle = this.snake.color;
-    this.snake.getSnake().forEach(snakeBlock => {
-      this.ctx.fillRect(snakeBlock.x, snakeBlock.y, BLOCK_SIZE, BLOCK_SIZE);
-    });
-  }
-
   private updateStats(): void {
     this.points++;
     this.snakeBlocks = this.snake.snakeBody.length;
@@ -133,13 +126,27 @@ export class SnakeGameComponent implements OnInit {
   }
 
   private drawApple(): void {
-    this.ctx.fillStyle = APPLE_COLOR;
-    this.ctx.fillRect(this.apple.x, this.apple.y, BLOCK_SIZE, BLOCK_SIZE);
+    this.drawRoundedCornerRec(this.apple.x, this.apple.y, BLOCK_SIZE, BLOCK_SIZE, 20, APPLE_COLOR);
   }
 
   private randomApple(): void {
     const random1 = Math.floor(Math.random() * COLS - 1) + 1;
     const random2 = Math.floor(Math.random() * ROWS - 1) + 1;
     this.apple = {x: random1 * BLOCK_SIZE + random1 + GRID_SIZE, y: random2 * BLOCK_SIZE + random2 + GRID_SIZE};
+  }
+
+  private drawSnake(): void {
+    this.snake.getSnake().forEach(snakeBlock => {
+      this.drawRoundedCornerRec(snakeBlock.x, snakeBlock.y, BLOCK_SIZE, BLOCK_SIZE, 20, this.snake.color);
+    });
+  }
+
+  private drawRoundedCornerRec(x: number, y: number, width: number, height: number, radius: number, color: string): void {
+    this.ctx.lineJoin = 'round';
+    this.ctx.lineWidth = radius;
+    this.ctx.strokeStyle = color;
+    this.ctx.fillStyle = color;
+    this.ctx.strokeRect(x + (radius / 2), y + (radius / 2), width - radius, height - radius);
+    this.ctx.fillRect(x + (radius / 2), y + (radius / 2), width - radius, height - radius);
   }
 }
