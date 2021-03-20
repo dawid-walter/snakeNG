@@ -12,11 +12,22 @@
         Play Game
       </button>
     </div>
-    <div class="button-container">
-      <button (click)="pauseGame()" class="pause-button button">
-        Pause Game
-      </button>
-    </div>
+    <ng-container *ngIf="!isRunning; then pause; else resume"></ng-container>
+    <ng-template #pause>
+      <div class="button-container">
+        <button (click)="pauseGame()" class="pause-button button">
+          Pause Game
+        </button>
+      </div>
+    </ng-template>
+    <ng-template #resume>
+      <div class="button-container">
+        <button (click)="resumeGame()" class="pause-button button">
+          Resume Game
+        </button>
+      </div>
+    </ng-template>
+
     <div class="button-container">
       <button (click)="resetGame()" class="pause-button button">
         Reset Game

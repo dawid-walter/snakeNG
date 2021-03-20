@@ -15,11 +15,12 @@ export class SnakeGameComponent implements OnInit {
   private ctx: CanvasRenderingContext2D;
   points: number;
   snakeBlocks: number;
-  speed: number;
+  speed = 0;
   private time = {start: 0, elapsed: 0, total: 2000};
   private snake: Snake;
   private movingDirection: DIRECTIONS;
   private currentFrameId: number;
+  isRunning = false;
 
 
   constructor() {
@@ -30,6 +31,8 @@ export class SnakeGameComponent implements OnInit {
     this.ctx.canvas.width = COLS * BLOCK_SIZE;
     this.ctx.canvas.height = ROWS * BLOCK_SIZE;
     this.snake = new Snake(SNAKE_COLOR);
+    this.drawSnake();
+    this.resetStats();
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -49,16 +52,31 @@ export class SnakeGameComponent implements OnInit {
   }
 
   playGame(): void {
+    this.isRunning = true;
+    this.resetGame();
+    this.time.start = performance.now();
+    requestAnimationFrame((now) => this.animate(now));
+  }
+
+  resumeGame(): void {
+    this.isRunning = !this.isRunning;
     this.time.start = performance.now();
     requestAnimationFrame((now) => this.animate(now));
   }
 
   pauseGame(): void {
-
+    this.isRunning = !this.isRunning;
+    cancelAnimationFrame(this.currentFrameId);
   }
 
   resetGame(): void {
-
+    this.isRunning = false;
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    this.snake = new Snake(SNAKE_COLOR);
+    this.movingDirection = DIRECTIONS.RIGHT;
+    cancelAnimationFrame(this.currentFrameId);
+    this.resetStats();
+    this.drawSnake();
   }
 
   private gameOver(): void {
@@ -84,14 +102,14 @@ export class SnakeGameComponent implements OnInit {
     }
   }
 
-  drawFrame(): void {
+  private drawFrame(): void {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.updateStats();
     this.drawSnake();
     this.snake.moveSnakeTo(this.movingDirection);
   }
 
-  drawSnake(): void {
+  private drawSnake(): void {
     this.ctx.fillStyle = this.snake.color;
     this.snake.getSnake().forEach(snakeBlock => {
       this.ctx.fillRect(snakeBlock.x, snakeBlock.y, BLOCK_SIZE - 1, BLOCK_SIZE - 1);
@@ -101,5 +119,10 @@ export class SnakeGameComponent implements OnInit {
   private updateStats(): void {
     this.points++;
     this.snakeBlocks = this.snake.snakeBody.length;
+  }
+
+  private resetStats(): void {
+    this.points = 0;
+    this.snakeBlocks = this.snake.getSnake().length;
   }
 }
