@@ -8,6 +8,10 @@ My very first app was snake game in Java. I created this project to practice my 
 - Single player snake game
 - Keyboard control 
 
+## Play online
+
+Available to play online, go to: [https://dawid-walter.uk/snake/](https://dawid-walter.uk/snake/)
+
 ## Development server
 
 Run `npm run start:dev` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
